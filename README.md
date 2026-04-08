@@ -8,6 +8,11 @@
 
 **核心原则：专事专办，按文献类型匹配对应要求，不堆砌信息。**
 
+**v1.1.0 新增：类型标识与获取路径统一原则**
+- `[C/OL]` 类型必须附带会议官方链接
+- `[PP/OL]` 类型附带预印本链接
+- 无法获取会议链接时自动降级为预印本类型
+
 ## 功能特性
 
 - ✅ 验证学术文献是否存在及其信息准确性
@@ -16,6 +21,7 @@
 - ✅ 支持批量验证多条参考文献
 - ✅ 支持两种引用体系：顺序编码制、著者-出版年制
 - ✅ 支持13种文献类型：期刊、会议录、图书、学位论文、报告、标准、专利、预印本等
+- ✅ **v1.1.0 新增**：输出人工查证链接表，便于逐条核实
 
 ## 支持的文献类型
 
@@ -69,6 +75,13 @@ Unmixing before fusion: a generalized paradigm for multi-source based hyperspect
 Yu Yang, Pan Erting, Wang Xinya, et al. 2024. Unmixing before fusion: a generalized paradigm for multi-source based hyperspectral image synthesis[C/OL]//CVPR, 2024: 4. https://openaccess.thecvf.com/...
 ```
 
+### 人工查证链接表（v1.1.0 新增）
+
+| 序号 | 文献题名 | 查证链接 | 链接类型 | 备注 |
+|:----:|----------|----------|----------|------|
+| 1 | 题名 | [链接](URL) | 会议官方 | 正常 |
+| 2 | 题名 | [链接](URL) | 预印本 | ⚠️无会议链接 |
+
 ## 核心规则
 
 ### 作者姓名著录
@@ -78,6 +91,14 @@ Yu Yang, Pan Erting, Wang Xinya, et al. 2024. Unmixing before fusion: a generali
 | 中国人名（汉语拼音） | 全部著录，首字母大写 | **宜用全称** | `Yu Yang`, `Wang Xinya` |
 | 欧美人名（西文） | 全部著录，首字母大写 | 可缩写为首字母 | `Vaswani A`, `Einstein A` |
 
+### 类型与路径统一原则（v1.1.0 新增）
+
+| 文献类型 | 获取路径要求 | 示例 |
+|----------|--------------|------|
+| `[C/OL]` | 必须附带会议官方链接 | OpenReview, IEEE Xplore, PMLR |
+| `[PP/OL]` | 附带预印本链接 | arXiv, bioRxiv |
+| 降级规则 | 会议链接无法获取时，自动降级为 `[PP/OL]` | - |
+
 ### 常见错误警示
 
 | 错误类型 | 错误示例 | 正确做法 |
@@ -86,6 +107,7 @@ Yu Yang, Pan Erting, Wang Xinya, et al. 2024. Unmixing before fusion: a generali
 | 中国人名缩写 | Yu Y（名缩写） | Yu Yang（**名用全称**） |
 | 年份重复 | `//CVPR 2024, 2024` | `//CVPR, 2024`（会议名已含年份时不重复） |
 | 会议录信息冗余 | 添加出版地、出版者 | 会议录只需会议名、年份、页码 |
+| **类型与路径不一致（v1.1.0）** | `[C/OL]//ICLR, 2015. https://arxiv.org/...` | `[PP/OL]. arXiv, 2014-12-22. https://arxiv.org/...` |
 
 ## 文件结构
 
@@ -94,9 +116,10 @@ academic-paper-verifier/
 ├── SKILL.md              # 技能定义文件（核心）
 ├── README.md             # 本文件
 ├── LICENSE               # 开源协议
+├── CHANGELOG.md          # 版本变更记录
 ├── references/
 │   └── gbt7714-2025-citation-rules.md  # GB/T 7714-2025 完整著录规则
-└── examples/             # 示例文件（可选）
+└── examples/             # 示例文件
 ```
 
 ## 技术说明
@@ -114,6 +137,12 @@ MIT License - 详见 [LICENSE](LICENSE) 文件
 欢迎提交 Issue 和 Pull Request 来改进本技能。
 
 ## 更新日志
+
+### v1.1.0 (2026-04-08)
+- 新增类型标识与获取路径统一原则
+- 新增人工查证链接表输出
+- 新增降级处理规则
+- 修复类型与路径不一致问题
 
 ### v1.0.0 (2026-04-08)
 - 初始版本发布
